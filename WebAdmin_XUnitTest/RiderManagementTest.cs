@@ -19,8 +19,6 @@ namespace WebAdmin_XUnitTest
             var sut = new SetupLogic();
             var res = sut.AdminCreateRiderAndRiderExcepted();
             res.Should().Be(true);
-
-
         }
 
         [Fact(DisplayName = "Admin - เพิ่ม Rider แล้ว Rider คนนั้นปฎิเสธ  ผลลัพธ์คือ Rider ไม่ได้เป็นพนังงานของบริษัทเดลิเวอร์รี่")]
@@ -29,9 +27,7 @@ namespace WebAdmin_XUnitTest
             var sut = new SetupLogic();
             var res = sut.AdminCreateRiderButRiderNotExcepted();
             res.Should().Be(true);
-
         }
-
 
         [Fact(DisplayName = "Admin - พักงาน Rider แล้ว Rider จะไม่สามารถรับงานได้")]
         public async Task RiderBeSuspendedFromJob()

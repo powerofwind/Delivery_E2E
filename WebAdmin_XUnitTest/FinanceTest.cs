@@ -17,7 +17,7 @@ namespace WebAdmin_XUnitTest
         public async Task AdminCreateRiderFinanceSuccess()
         {
             var sut = new SetupLogic();
-            var res = sut.AdminCreateRiderFinanceSuccess();
+            var res = await sut.AdminCreateRiderFinanceSuccess();
             res.Should().Be(true);
         }
 
@@ -25,7 +25,7 @@ namespace WebAdmin_XUnitTest
         public async Task AdminDeleteRiderFinanceSuccess()
         {
             var sut = new SetupLogic();
-            var res = sut.AdminDeleteRiderFinanceSuccess();
+            var res = await sut.AdminDeleteRiderFinanceSuccess();
             res.Should().Be(true);
         }
 
