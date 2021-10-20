@@ -17,7 +17,7 @@ namespace WebAdmin_XUnitTest
         public async Task AdminCreateRiderAndRiderExcepted()
         {
             var sut = new SetupLogic();
-            var res = sut.AdminCreateRiderAndRiderExcepted();
+            var res = await sut.AdminCreateRiderAndRiderExcepted();
             res.Should().Be(true);
         }
 
@@ -25,7 +25,7 @@ namespace WebAdmin_XUnitTest
         public async Task AdminCreateRiderButRiderNotExcepted()
         {
             var sut = new SetupLogic();
-            var res = sut.AdminCreateRiderButRiderNotExcepted();
+            var res = await sut.AdminCreateRiderButRiderNotExcepted();
             res.Should().Be(true);
         }
 
@@ -33,7 +33,7 @@ namespace WebAdmin_XUnitTest
         public async Task RiderBeSuspendedFromJob()
         {
             var sut = new SetupLogic();
-            var res = sut.RiderBeSuspendedFromJob();
+            var res = await sut.RiderBeSuspendedFromJob();
             res.Should().Be(true);
         }
 
@@ -41,20 +41,19 @@ namespace WebAdmin_XUnitTest
         public async Task RiderBeUnSuspendedFromJob()
         {
             var sut = new SetupLogic();
-            var res = sut.RiderBeUnSuspendedFromJob();
+            var res = await sut.RiderBeUnSuspendedFromJob();
             res.Should().Be(true);
 
         }
 
-        //[Fact(DisplayName = "Admin - ดูประวัติการเงินย้อนหลังของ Rider ได้ เอาไว้เช็คกับ app rider ซึ่งตอนนี้ยังไม่มี ui ใน rider")]
-        //public async Task RiderHistoryLog()
-        //{
-        //    var sut = new SetupLogic();
-        //    var res = sut.RiderHistoryLog();
-        //    res.Should().Be(true);
+        [Fact(DisplayName = "Admin - ดูประวัติการเงินย้อนหลังของ Rider ได้ เอาไว้เช็คกับ app rider ซึ่งตอนนี้ยังไม่มี ui ใน rider")]
+        public async Task RiderHistoryLog()
+        {
+            var sut = new SetupLogic();
+            var res = await sut.RiderHistoryLog();
+            res.Should().Be(true);
 
-        //}
-
+        }
 
     }
 }

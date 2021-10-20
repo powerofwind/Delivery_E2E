@@ -39,8 +39,8 @@ namespace WebAdmin
             await page.ClickAsync("text=ยืนยัน >> button");
             await page.WaitForTimeoutAsync(2000);
             var seccond = await page.QuerySelectorAllAsync("ion-card");
-            var countSeccon = seccond.Count();
-            var result = countSeccon - countFisrt;
+            var countSeccond = seccond.Count();
+            var result = countSeccond - countFisrt;
             var res = result == 1 ? true : false;
             return res;
         }
@@ -50,10 +50,17 @@ namespace WebAdmin
             var browser = await BeforeScenario();
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/finance");
+            await page.WaitForTimeoutAsync(2000);
+            var first = await page.QuerySelectorAllAsync("ion-card");
+            var countFisrt = first.Count();
             await page.ClickAsync("text=นาย อานนท์ บางสาน");
             await page.ClickAsync("text=ลบ >> button");
             await page.ClickAsync("#ion-overlay-3 button:has-text(\"ตกลง\")");
-            return true;
+            var seccond = await page.QuerySelectorAllAsync("ion-card");
+            var countSeccond = seccond.Count();
+            var result = countFisrt - countSeccond;
+            var res = result == 1 ? true : false;
+            return res;
         }
 
         public async Task<bool> AdminCreateRiderAndRiderExcepted()
@@ -61,42 +68,85 @@ namespace WebAdmin
             var browser = await BeforeScenario();
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/biker");
+            await page.WaitForTimeoutAsync(2000);
+            var first = await page.QuerySelectorAllAsync("ion-card");
+            var countFisrt = first.Count();
             await page.ClickAsync("span");
-            await page.FillAsync("input[name=\"ion-input-6\"]","0911234567");
-            await page.FillAsync("input[name=\"ion-input-7\"]", "a1");
-            await page.ClickAsync("input[name=\"file\"]");
-            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "1.jpg" });
-            await page.FillAsync("input[name=\"ion-input-9\"]", "น้อง");
-            await page.FillAsync("input[name=\"ion-input-10\"]", "99/99");
-            await page.FillAsync("input[name=\"ion-input-11\"]", "คนใหม่");
-            await page.ClickAsync("text=ยกเลิกบันทึก >> div div");
-        
-            return true;
+            await page.FillAsync("input[name=\"ion-input-0\"]","0911234567");
+            await page.FillAsync("input[name=\"ion-input-1\"]", "a1");
+            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\sakul\\Desktop\\oldpic\\1.jpg" });
+            await page.FillAsync("input[name=\"ion-input-3\"]", "น้อง2");
+            await page.FillAsync("input[name=\"ion-input-4\"]", "99/99");
+            await page.FillAsync("input[name=\"ion-input-5\"]", "คนใหม่");
+            await page.ClickAsync("text=บันทึก");
+            var seccond = await page.QuerySelectorAllAsync("ion-card");
+            var countSeccond = seccond.Count();
+            var result = countSeccond - countFisrt;
+            var res = result == 1 ? true : false;
+            return res;
 
         }
 
         public async Task<bool> AdminCreateRiderButRiderNotExcepted()
         {
-            return true;
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/biker");
+            await page.WaitForTimeoutAsync(2000);
+            var first = await page.QuerySelectorAllAsync("ion-card");
+            var countFisrt = first.Count();
+            await page.ClickAsync("span");
+            await page.FillAsync("input[name=\"ion-input-0\"]", "0911234567");
+            await page.FillAsync("input[name=\"ion-input-1\"]", "a1");
+            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\sakul\\Desktop\\oldpic\\1.jpg" });
+            await page.FillAsync("input[name=\"ion-input-3\"]", "น้อง2");
+            await page.FillAsync("input[name=\"ion-input-4\"]", "99/99");
+            await page.FillAsync("input[name=\"ion-input-5\"]", "คนใหม่");
+            await page.ClickAsync("text=บันทึก");
+            var seccond = await page.QuerySelectorAllAsync("ion-card");
+            var countSeccond = seccond.Count();
+            var result = countSeccond - countFisrt;
+            var res = result == 1 ? true : false;
+            return res;
 
         }
 
         public async Task<bool> RiderBeSuspendedFromJob()
         {
-            return true;
-
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/biker");
+            await page.WaitForTimeoutAsync(2000);
+            await page.ClickAsync("text=นาย อานนท์ บางสาน");
+            await page.ClickAsync("text=พักงาน");
+            await page.ClickAsync("[aria-label=\"back\"]");
+            var res = await page.InnerTextAsync("text = นาย อานนท์ บางสาน");
+            var actual = res == "นาย อานนท์ บางสาน" ? true : false;
+            return actual;
         }
 
         public async Task<bool> RiderBeUnSuspendedFromJob()
         {
-            return true;
-
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/biker");
+            await page.ClickAsync("text=นาย อานนท์ บางสาน");
+            await page.ClickAsync("text=เลิกพักงาน");
+            await page.ClickAsync("[aria-label=\"back\"]");
+            var res = await page.InnerTextAsync("text = นาย อานนท์ บางสาน");
+            var actual = res == "นาย อานนท์ บางสาน" ? true : false;
+            return actual;
         }
 
         public async Task<bool> RiderHistoryLog()
         {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/biker");
+            await page.WaitForTimeoutAsync(2000);
+            await page.ClickAsync("text=นาย อานนท์ บางสาน");
+            await page.ClickAsync("text=ประวัติการรับงาน");
             return true;
-
         }
 
 
