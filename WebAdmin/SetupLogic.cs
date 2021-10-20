@@ -149,6 +149,89 @@ namespace WebAdmin
             return true;
         }
 
+        public async Task<bool> AdminCreateContract()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            //await page.GotoAsync(Path.Combine("https:", "delivery-3rd-admin.azurewebsites.net", "#", "Contract"));
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/contract");
+            await page.WaitForTimeoutAsync(2000);
+            var first = await page.QuerySelectorAllAsync("ion-card");
+            var countFisrt = first.Count();
+            await page.ClickAsync("text=เพิ่มรายการ >> span");
+            await page.FillAsync("input[name=\"ion-input-0\"]", "พรุ่งนี้รวย299");
+            await page.FillAsync("input[name=\"ion-input-1\"]", "1");
+            await page.FillAsync("input[name=\"ion-input-2\"]", "3");
+            await page.ClickAsync("text=ยืนยัน >> button");
+            var seccond = await page.QuerySelectorAllAsync("ion-card");
+            var countSeccon = seccond.Count();
+            var result = countSeccon - countFisrt;
+            var res = result == 1 ? true : false;
+            return res;
+        }
+
+        public async Task<bool> ContractDetail()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/contract");
+            await page.ClickAsync("p:has-text(\"Contract : นานแรมปี\")");
+            // TODO check Scenario
+            return true;
+        }
+
+        public async Task<bool> CancleOrder()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operation");
+            await page.ClickAsync("ion-segment-button:has-text(\"Order\")");
+            await page.ClickAsync("h1:has-text(\"OrderID : 0032\")");
+            //TODO : ใช้คำสั่ง Playwright กดยกเลิกคำสั่งซื้อไม่ได้ แก้ไข Code ใน web Admin
+            await page.ClickAsync("ยกเลิกคำสั่งซื้อ");
+            await page.ClickAsync("text=ร้านค้าไม่สามารถทำอาหารได้Bikerไม่สามารถส่งอาหารได้ >> button");
+            await page.ClickAsync("button[role=\"radio\"]:has-text(\"ร้านค้าไม่สามารถทำอาหารได้\")");
+            await page.ClickAsync("button:has-text(\"OK\")");
+            await page.ClickAsync("h2:has-text(\"ตกลง\")");
+            // TODO check Scenario
+            return true;
+        }
+
+        public async Task<bool> RejectCancleOrder()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operation");
+            await page.ClickAsync("text=OrderID : 0032");
+            await page.ClickAsync("text=ปฏิเสธการขอยกเลิก >> button");
+            await page.ClickAsync("#ion-overlay-3 button:has-text(\"ตกลง\")");
+            // TODO check Scenario
+            return true;
+        }
+
+        public async Task<bool> ApproveCancleOrder()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operation");
+            await page.ClickAsync("text=OrderID : 0029");
+            await page.ClickAsync("text=อนุมัติการขอยกเลิก >> button");
+            await page.ClickAsync("text=ร้านค้าไม่สามารถทำอาหารได้ Bikerไม่สามารถส่งอาหารได้ >> button");
+            await page.ClickAsync("button[role=\"radio\"]:has-text(\"ร้านค้าไม่สามารถทำอาหารได้\")");
+            await page.ClickAsync("button:has-text(\"OK\")");
+            await page.ClickAsync("text=คืนทั้งหมดชดเชยให้ร้านไม่ชดเชยให้ร้านคืนเฉพาะค่าอาหารไม่คืนเงิน >> button");
+            //TODO: กดบันทึกอนุมัติการขอยกเลิก แล้วขึ้น error แก้ไข Code ใน web Admin
+            await page.ClickAsync("h2:has-text(\"บันทึก\")");
+            // TODO check Scenario
+            return true;
+        }
+
+
+
+
+
+
+
 
     }
 }
