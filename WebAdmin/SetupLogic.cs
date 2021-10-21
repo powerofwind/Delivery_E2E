@@ -209,6 +209,7 @@ namespace WebAdmin
             return true;
         }
 
+        //TODO : ยังไม่ได้ทำเรื่องเงิน (คืนเงิน)
         public async Task<bool> ApproveCancleOrder()
         {
             var browser = await BeforeScenario();
@@ -227,11 +228,125 @@ namespace WebAdmin
         }
 
 
+        public async Task<bool> ApproveCreateRestaurant()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/restaurant");
+            await page.ClickAsync("span");
+            await page.FillAsync("input[name=\"ion-input-0\"]", "1111");
+            await page.FillAsync("input[name=\"ion-input-1\"]", "2222");
+            await page.FillAsync("input[name=\"ion-input-2\"]", "33333");
+            await page.FillAsync("input[name=\"ion-input-3\"]", "44444");
+            await page.ClickAsync("text=อาหารเครื่องดิ่ม >> button");
+            await page.ClickAsync("button[role=\"radio\"]:has-text(\"อาหาร\")");
+            await page.ClickAsync("button:has-text(\"OK\")");
+            await page.ClickAsync("text=นานแรมปีลองๆ123สัญญาหน้าฝนสัญญาหน้าฝน2พรุ่งนี้รวยพรุ่งนี้รวย2พรุ่งนี้รวย3พรุ่งนี >> button");
+            await page.ClickAsync("button[role=\"radio\"]:has-text(\"นานแรมปี\")");
+            await page.ClickAsync("button:has-text(\"OK\")");
+            await page.ClickAsync("text=ยืนยัน >> button");
+            // TODO check Scenario
+            return true;
+
+        }
+
+        public async Task<bool> RejectCreateRestaurant()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/restaurant");
+            await page.ClickAsync("span");
+            await page.FillAsync("input[name=\"ion-input-0\"]", "1111");
+            await page.FillAsync("input[name=\"ion-input-1\"]", "2222");
+            await page.FillAsync("input[name=\"ion-input-2\"]", "33333");
+            await page.FillAsync("input[name=\"ion-input-3\"]", "44444");
+            await page.ClickAsync("text=อาหารเครื่องดิ่ม >> button");
+            await page.ClickAsync("button[role=\"radio\"]:has-text(\"อาหาร\")");
+            await page.ClickAsync("button:has-text(\"OK\")");
+            await page.ClickAsync("text=นานแรมปีลองๆ123สัญญาหน้าฝนสัญญาหน้าฝน2พรุ่งนี้รวยพรุ่งนี้รวย2พรุ่งนี้รวย3พรุ่งนี >> button");
+            await page.ClickAsync("button[role=\"radio\"]:has-text(\"นานแรมปี\")");
+            await page.ClickAsync("button:has-text(\"OK\")");
+            await page.ClickAsync("text=ยืนยัน >> button");
+            // TODO check Scenario
+            return true;
+
+        }
+
+        public async Task<bool> RestaurantHistoryDetail()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/restaurant");
+            await page.ClickAsync("text=ครัวระเบียง อาหารตามสั่ง");
+            await page.ClickAsync("text=ประวัติการรับงาน");
+            await page.ClickAsync("text=OrderID : 0037");
+            // TODO check Scenario
+            return true;
+        }
 
 
+        public async Task<bool> ApproveCreateOperator()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operator");
+            await page.ClickAsync("span");
+            await page.FillAsync("input[name=\"ion-input-0\"]", "0252585458");
+            await page.FillAsync("input[name=\"ion-input-1\"]", "123456700");
+            await page.ClickAsync("input[name=\"file\"]");
+            //TODO: เพิ่มรูปยังไม่ได้
+            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "pto9.PNG" });
+            await page.FillAsync("input[name=\"ion-input-3\"]", "เต");
+            await page.FillAsync("input[name=\"ion-input-4\"]", "8/2");
+            await page.FillAsync("input[name=\"ion-input-5\"]", "จุฟฟ");
+            await page.ClickAsync("text=บันทึก");
+            // TODO check Scenario
+            return true;
+
+        }
+
+        public async Task<bool> RejectCreateOperator()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operator");
+            await page.ClickAsync("span");
+            await page.FillAsync("input[name=\"ion-input-0\"]", "0252585458");
+            await page.FillAsync("input[name=\"ion-input-1\"]", "123456700");
+            await page.ClickAsync("input[name=\"file\"]");
+            //TODO: เพิ่มรูปยังไม่ได้
+            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "pto9.PNG" });
+            await page.FillAsync("input[name=\"ion-input-3\"]", "เต");
+            await page.FillAsync("input[name=\"ion-input-4\"]", "8/2");
+            await page.FillAsync("input[name=\"ion-input-5\"]", "จุฟฟ");
+            await page.ClickAsync("text=บันทึก");
+            // TODO check Scenario
+            return true;
+
+        }
 
 
+        //TODO: ยังไม่ได้ทำใน web Admin
+        public async Task<bool> OperatorBeSuspendedFromJob()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operator");
+            await page.ClickAsync("#main-content >> text=น.ส ปทุมวดี โอภาศัย");
+            // TODO check Scenario
+            return true;
+        }
 
+        //TODO: ยังไม่ได้ทำใน web Admin
+        public async Task<bool> OperatorBeUnSuspendedFromJob()
+        {
+            var browser = await BeforeScenario();
+            page = await browser.NewPageAsync();
+            await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operator");
+            await page.ClickAsync("#main-content >> text=น.ส ปทุมวดี โอภาศัย");
+            // TODO check Scenario
+            return true;
+        }
 
     }
 }

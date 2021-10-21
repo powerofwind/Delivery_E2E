@@ -11,7 +11,7 @@ namespace WebAdmin_XUnitTest
 {
     public class OperationTest
     {
-        [Fact(DisplayName = "สามารถดูรายละเอียดสัญญาได้")]
+        [Fact(DisplayName = "Admin สามารถขอยกเลิกออเดอร์ได้")]
         public async Task AdminCancleOrder()
         {
             var sut = new SetupLogic();
@@ -19,11 +19,19 @@ namespace WebAdmin_XUnitTest
             res.Should().Be(true);
         }
 
-        [Fact(DisplayName = "สามารถดูรายละเอียดสัญญาได้")]
+        [Fact(DisplayName = "Admin - ปฏิเสธคำขอยกเลิก order ทำให้ order ไม่ถูกยกเลิกและสามารถดำเนินการต่อได้จนจบ")]
         public async Task AdminRejectCancleOrder()
         {
             var sut = new SetupLogic();
             var res = await sut.RejectCancleOrder();
+            res.Should().Be(true);
+        }
+
+        [Fact(DisplayName = "อนุมัติคำขอยกเลิกทำให้ user,rider,restaurant ได้เงินคืนตามสัญญา")]
+        public async Task AdminApproveCancleOrder()
+        {
+            var sut = new SetupLogic();
+            var res = await sut.ApproveCancleOrder();
             res.Should().Be(true);
         }
     }
