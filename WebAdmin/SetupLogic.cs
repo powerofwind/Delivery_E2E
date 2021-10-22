@@ -72,7 +72,7 @@ namespace WebAdmin
             var first = await page.QuerySelectorAllAsync("ion-card");
             var countFisrt = first.Count();
             await page.ClickAsync("span");
-            await page.FillAsync("input[name=\"ion-input-0\"]","0911234567");
+            await page.FillAsync("input[name=\"ion-input-0\"]", "0911234567");
             await page.FillAsync("input[name=\"ion-input-1\"]", "a1");
             await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\sakul\\Desktop\\oldpic\\1.jpg" });
             await page.FillAsync("input[name=\"ion-input-3\"]", "น้อง2");
@@ -176,8 +176,23 @@ namespace WebAdmin
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/contract");
             await page.ClickAsync("p:has-text(\"Contract : นานแรมปี\")");
-            // TODO check Scenario
-            return true;
+            // ชื่อสัญญา
+            var nameContract = await page.InnerTextAsync("ion-row:nth-child(1)");
+            //// เปอร์เซ็นที่หักร้านอาหาร
+            //var PercentContract = await page.InnerTextAsync("ion-row:nth-child(2)");
+            //// ค่าส่ง Rider
+            //var shippingCost = await page.InnerTextAsync("ion-row:nth-child(3)");
+            // TODO : เช็คร้านว่าอยู่ในสัญญานี้ไหม
+            // ชื่อร้านแรก + วันที่ ที่อยู่ในสัญญานี้
+            var fristShopInContract = await page.InnerTextAsync("ion-row:nth-child(7)");
+            if (nameContract == "ชื่อสัญญา\nนานแรมปี"
+
+                && (fristShopInContract == "1.\nครัวระเบียง อาหารตามสั่ง\n12 Feb 2021" || fristShopInContract == null))
+            {
+                return true;
+            }
+            return false;
+
         }
 
         public async Task<bool> CancleOrder()
@@ -193,8 +208,13 @@ namespace WebAdmin
             await page.ClickAsync("button[role=\"radio\"]:has-text(\"ร้านค้าไม่สามารถทำอาหารได้\")");
             await page.ClickAsync("button:has-text(\"OK\")");
             await page.ClickAsync("h2:has-text(\"ตกลง\")");
-            // TODO check Scenario
-            return true;
+            // TODO: check Scenario
+            var checkText = await page.InnerTextAsync("ion-row");
+            if (checkText == "คำขอยกเลิกการสั่งอาหาร")
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> RejectCancleOrder()
@@ -205,8 +225,9 @@ namespace WebAdmin
             await page.ClickAsync("text=OrderID : 0032");
             await page.ClickAsync("text=ปฏิเสธการขอยกเลิก >> button");
             await page.ClickAsync("#ion-overlay-3 button:has-text(\"ตกลง\")");
-            // TODO check Scenario
-            return true;
+            var seccond = await page.QuerySelectorAllAsync("text = OrderID : 0032");
+            var res = seccond.Count == 0 ? true : false;
+            return res;
         }
 
         //TODO : ยังไม่ได้ทำเรื่องเงิน (คืนเงิน)
@@ -223,10 +244,9 @@ namespace WebAdmin
             await page.ClickAsync("text=คืนทั้งหมดชดเชยให้ร้านไม่ชดเชยให้ร้านคืนเฉพาะค่าอาหารไม่คืนเงิน >> button");
             //TODO: กดบันทึกอนุมัติการขอยกเลิก แล้วขึ้น error แก้ไข Code ใน web Admin
             await page.ClickAsync("h2:has-text(\"บันทึก\")");
-            // TODO check Scenario
+            // TODO: check Scenario
             return true;
         }
-
 
         public async Task<bool> ApproveCreateRestaurant()
         {
@@ -245,7 +265,8 @@ namespace WebAdmin
             await page.ClickAsync("button[role=\"radio\"]:has-text(\"นานแรมปี\")");
             await page.ClickAsync("button:has-text(\"OK\")");
             await page.ClickAsync("text=ยืนยัน >> button");
-            // TODO check Scenario
+            // ขอ consent ไปหา User แล้ว User เลือกอนุมัติ
+            // TODO: check Scenario
             return true;
 
         }
@@ -267,7 +288,8 @@ namespace WebAdmin
             await page.ClickAsync("button[role=\"radio\"]:has-text(\"นานแรมปี\")");
             await page.ClickAsync("button:has-text(\"OK\")");
             await page.ClickAsync("text=ยืนยัน >> button");
-            // TODO check Scenario
+            // TODO: ขอ consent ไปหา User แล้ว User เลือกอนุมัติ (ยังเล่น mana ไม่ได้)
+            // TODO: check Scenario
             return true;
 
         }
@@ -279,11 +301,20 @@ namespace WebAdmin
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/restaurant");
             await page.ClickAsync("text=ครัวระเบียง อาหารตามสั่ง");
             await page.ClickAsync("text=ประวัติการรับงาน");
-            await page.ClickAsync("text=OrderID : 0037");
-            // TODO check Scenario
-            return true;
-        }
+            await page.ClickAsync("text=OrderID : 0039");
+            // check สถานะการส่งของ Order นั้น
+            var checkDeliveryStatus = await page.InnerTextAsync("ion-row");
+            if (checkDeliveryStatus == "ลูกค้าสั่งอาหาร (14:13 น.)\n\nรับออเดอร์ (14:14 น.)\n\nอยู่ระหว่างจัดส่ง (14:25 น.)\n\nของถึงแล้ว (15:06 น.)\n\nลูกค้าได้รับของแล้ว (15:06 น.)")
+            {
+                return true;
+            }
+            else if (checkDeliveryStatus == "ยกเลิกการสั่งอาหาร")
+            {
+                return true;
+            }
+            return false;
 
+        }
 
         public async Task<bool> ApproveCreateOperator()
         {
@@ -293,14 +324,12 @@ namespace WebAdmin
             await page.ClickAsync("span");
             await page.FillAsync("input[name=\"ion-input-0\"]", "0252585458");
             await page.FillAsync("input[name=\"ion-input-1\"]", "123456700");
-            await page.ClickAsync("input[name=\"file\"]");
-            //TODO: เพิ่มรูปยังไม่ได้
-            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "pto9.PNG" });
+            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\เต2.jpg" });
             await page.FillAsync("input[name=\"ion-input-3\"]", "เต");
             await page.FillAsync("input[name=\"ion-input-4\"]", "8/2");
             await page.FillAsync("input[name=\"ion-input-5\"]", "จุฟฟ");
             await page.ClickAsync("text=บันทึก");
-            // TODO check Scenario
+            // TODO: check Scenario
             return true;
 
         }
@@ -313,38 +342,35 @@ namespace WebAdmin
             await page.ClickAsync("span");
             await page.FillAsync("input[name=\"ion-input-0\"]", "0252585458");
             await page.FillAsync("input[name=\"ion-input-1\"]", "123456700");
-            await page.ClickAsync("input[name=\"file\"]");
-            //TODO: เพิ่มรูปยังไม่ได้
-            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "pto9.PNG" });
+            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\เต2.jpg" });
             await page.FillAsync("input[name=\"ion-input-3\"]", "เต");
             await page.FillAsync("input[name=\"ion-input-4\"]", "8/2");
             await page.FillAsync("input[name=\"ion-input-5\"]", "จุฟฟ");
             await page.ClickAsync("text=บันทึก");
-            // TODO check Scenario
+            // TODO: check Scenario
             return true;
 
         }
 
-
-        //TODO: ยังไม่ได้ทำใน web Admin
+        // TODO: ยังไม่ได้ทำ UI ใหม่ ใน Web Admin
         public async Task<bool> OperatorBeSuspendedFromJob()
         {
             var browser = await BeforeScenario();
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operator");
             await page.ClickAsync("#main-content >> text=น.ส ปทุมวดี โอภาศัย");
-            // TODO check Scenario
+            // TODO: check Scenario
             return true;
         }
 
-        //TODO: ยังไม่ได้ทำใน web Admin
+        // TODO: ยังไม่ได้ทำ UI ใหม่ ใน Web Admin
         public async Task<bool> OperatorBeUnSuspendedFromJob()
         {
             var browser = await BeforeScenario();
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operator");
             await page.ClickAsync("#main-content >> text=น.ส ปทุมวดี โอภาศัย");
-            // TODO check Scenario
+            // TODO: check Scenario
             return true;
         }
 
