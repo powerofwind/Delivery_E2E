@@ -69,8 +69,8 @@ namespace WebAdmin
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/biker");
             await page.WaitForTimeoutAsync(2000);
-            var first = await page.QuerySelectorAllAsync("ion-card");
-            var countFisrt = first.Count();
+            var countenable = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var enablelist = countenable.Count();
             await page.ClickAsync("span");
             await page.FillAsync("input[name=\"ion-input-0\"]","0911234567");
             await page.FillAsync("input[name=\"ion-input-1\"]", "a1");
@@ -79,9 +79,9 @@ namespace WebAdmin
             await page.FillAsync("input[name=\"ion-input-4\"]", "99/99");
             await page.FillAsync("input[name=\"ion-input-5\"]", "คนใหม่");
             await page.ClickAsync("text=บันทึก");
-            var seccond = await page.QuerySelectorAllAsync("ion-card");
-            var countSeccond = seccond.Count();
-            var result = countSeccond - countFisrt;
+            var seccondcount = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var countSeccond = seccondcount.Count();
+            var result = countSeccond - enablelist;
             var res = result == 1 ? true : false;
             return res;
 
