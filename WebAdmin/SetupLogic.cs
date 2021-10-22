@@ -69,8 +69,8 @@ namespace WebAdmin
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/biker");
             await page.WaitForTimeoutAsync(2000);
-            var first = await page.QuerySelectorAllAsync("ion-card");
-            var countFisrt = first.Count();
+            var countenable = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var enablelist = countenable.Count();
             await page.ClickAsync("span");
             await page.FillAsync("input[name=\"ion-input-0\"]", "0911234567");
             await page.FillAsync("input[name=\"ion-input-1\"]", "a1");
@@ -79,12 +79,11 @@ namespace WebAdmin
             await page.FillAsync("input[name=\"ion-input-4\"]", "99/99");
             await page.FillAsync("input[name=\"ion-input-5\"]", "คนใหม่");
             await page.ClickAsync("text=บันทึก");
-            var seccond = await page.QuerySelectorAllAsync("ion-card");
-            var countSeccond = seccond.Count();
-            var result = countSeccond - countFisrt;
+            var seccondcount = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var countSeccond = seccondcount.Count();
+            var result = countSeccond - enablelist;
             var res = result == 1 ? true : false;
             return res;
-
         }
 
         public async Task<bool> AdminCreateRiderButRiderNotExcepted()
@@ -93,8 +92,8 @@ namespace WebAdmin
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/biker");
             await page.WaitForTimeoutAsync(2000);
-            var first = await page.QuerySelectorAllAsync("ion-card");
-            var countFisrt = first.Count();
+            var countenable = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var enablelist = countenable.Count();
             await page.ClickAsync("span");
             await page.FillAsync("input[name=\"ion-input-0\"]", "0911234567");
             await page.FillAsync("input[name=\"ion-input-1\"]", "a1");
@@ -103,12 +102,11 @@ namespace WebAdmin
             await page.FillAsync("input[name=\"ion-input-4\"]", "99/99");
             await page.FillAsync("input[name=\"ion-input-5\"]", "คนใหม่");
             await page.ClickAsync("text=บันทึก");
-            var seccond = await page.QuerySelectorAllAsync("ion-card");
-            var countSeccond = seccond.Count();
-            var result = countSeccond - countFisrt;
+            var seccondcount = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var countSeccond = seccondcount.Count();
+            var result = countSeccond - enablelist;
             var res = result == 1 ? true : false;
             return res;
-
         }
 
         public async Task<bool> RiderBeSuspendedFromJob()
@@ -321,17 +319,24 @@ namespace WebAdmin
             var browser = await BeforeScenario();
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operator");
+            await page.WaitForTimeoutAsync(2000);
+            var countenable = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var enablelist = countenable.Count();
             await page.ClickAsync("span");
             await page.FillAsync("input[name=\"ion-input-0\"]", "0252585458");
             await page.FillAsync("input[name=\"ion-input-1\"]", "123456700");
-            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\เต2.jpg" });
+            await page.ClickAsync("input[name=\"file\"]");
+            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\sakul\\Desktop\\oldpic\\1.jpg" });
             await page.FillAsync("input[name=\"ion-input-3\"]", "เต");
             await page.FillAsync("input[name=\"ion-input-4\"]", "8/2");
             await page.FillAsync("input[name=\"ion-input-5\"]", "จุฟฟ");
             await page.ClickAsync("text=บันทึก");
             // TODO: check Scenario
-            return true;
-
+            var seccondcount = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var countSeccond = seccondcount.Count();
+            var result = countSeccond - enablelist;
+            var res = result == 1 ? true : false;
+            return res;
         }
 
         public async Task<bool> RejectCreateOperator()
@@ -339,17 +344,24 @@ namespace WebAdmin
             var browser = await BeforeScenario();
             page = await browser.NewPageAsync();
             await page.GotoAsync("https://delivery-3rd-admin.azurewebsites.net/#/operator");
+            await page.WaitForTimeoutAsync(2000);
+            var countenable = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var enablelist = countenable.Count();
             await page.ClickAsync("span");
             await page.FillAsync("input[name=\"ion-input-0\"]", "0252585458");
             await page.FillAsync("input[name=\"ion-input-1\"]", "123456700");
-            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\เต2.jpg" });
+            await page.ClickAsync("input[name=\"file\"]");
+            await page.SetInputFilesAsync("input[name=\"file\"]", new[] { "C:\\Users\\sakul\\Desktop\\oldpic\\1.jpg" });
             await page.FillAsync("input[name=\"ion-input-3\"]", "เต");
             await page.FillAsync("input[name=\"ion-input-4\"]", "8/2");
             await page.FillAsync("input[name=\"ion-input-5\"]", "จุฟฟ");
             await page.ClickAsync("text=บันทึก");
             // TODO: check Scenario
-            return true;
-
+            var seccondcount = await page.QuerySelectorAllAsync("ion-card[ng-reflect-disabled ='false']");
+            var countSeccond = seccondcount.Count();
+            var result = countSeccond - enablelist;
+            var res = result == 1 ? true : false;
+            return res;
         }
 
         // TODO: ยังไม่ได้ทำ UI ใหม่ ใน Web Admin
